@@ -1,0 +1,869 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Glashaus V2</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Glashaus is a 20-foot glass dome for two on twenty private acres above New Melones Lake in Angels Camp, California. Book direct and pay less than Airbnb.">
+<meta property="og:title" content="Glashaus | A glass dome above New Melones Lake">
+<meta property="og:image" content="assets/video/poster-hero-1080.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Archivo:wdth,wght@62..125,400..700&display=swap">
+<style>
+/* Layout: a summer-grass poster. The wordmark is a window cut into the page; you fly through its glass A into the film, then a day on the ridge runs sideways. One look, both host themes. */
+:root{
+  --grass:#E4C27A;     /* dry summer hills, the page */
+  --grass-2:#D6AF5C;   /* deeper grass band */
+  --ink:#102A3A;       /* New Melones at depth, all type */
+  --lake:#1D5C80;      /* bright water, links and marks */
+  --glass:#BFE3F2;     /* dome glass */
+  --paper:#FFFCF5;     /* cards on ink */
+  --oak:#3D4F2F;
+  --line:rgba(16,42,58,.22);
+  --line-l:rgba(255,252,245,.22);
+  --display:"Instrument Serif","Iowan Old Style",Georgia,serif;
+  --body:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --gl:max(20px, env(safe-area-inset-left,0px));
+  --gr:max(20px, env(safe-area-inset-right,0px));
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0}
+html{scroll-behavior:smooth}
+body{background:var(--grass);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:clip}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:70;background:var(--grass)}
+h1,h2,h3{font-family:var(--display);font-weight:400;line-height:.95;letter-spacing:-.01em;text-wrap:balance;margin:0}
+p{margin:0}
+a{color:inherit}
+button{font:inherit;cursor:pointer;color:inherit}
+:focus-visible{outline:2px solid var(--lake);outline-offset:3px;border-radius:3px}
+.wrap{padding-left:var(--gl);padding-right:var(--gr)}
+.inner{max-width:1280px;margin:0 auto}
+.wide{font-stretch:125%;font-weight:600;font-size:13px;letter-spacing:.02em}
+.btn{display:inline-flex;align-items:center;gap:.6em;border:0;border-radius:0;padding:1em 1.5em;font-family:var(--body);font-stretch:112%;font-weight:600;font-size:15px;text-decoration:none;transition:background .2s, color .2s}
+.btn-ink{background:var(--ink);color:var(--grass)}
+.btn-ink:hover{background:var(--lake);color:#fff}
+.btn-line{background:transparent;box-shadow:inset 0 0 0 1.5px currentColor}
+.btn-line:hover{background:var(--ink);color:var(--grass)}
+.tri{display:inline-block;width:.62em;height:.54em;background:currentColor;clip-path:polygon(50% 0,100% 100%,0 100%)}
+
+/* nav */
+.nav{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;z-index:60;transition:background .3s, transform .4s}
+.nav .inner{max-width:none;display:flex;justify-content:space-between;align-items:center;height:64px}
+.nav.solid{background:var(--grass);box-shadow:0 1px 0 var(--line)}
+.nav.hide{transform:translateY(-110%)}
+.wm-small{display:flex;align-items:baseline;font-family:var(--display);font-size:28px;line-height:1;letter-spacing:.06em;text-decoration:none;color:var(--ink)}
+.wm-small svg{height:.69em;width:.78em;margin:0 .05em 0 .01em;overflow:visible}
+.nav-r{display:flex;gap:22px;align-items:center}
+.nav-r a.tx{text-decoration:none;font-size:15px}
+.nav-r a.tx:hover{text-decoration:underline;text-underline-offset:4px}
+@media (max-width:760px){.nav-r a.tx{display:none}}
+
+/* intro: wordmark window */
+.intro{position:relative;height:340vh}
+.intro .stick{position:sticky;top:0;height:100svh;overflow:hidden;background:var(--ink)}
+.intro video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+#wm{position:absolute;inset:0;width:100%;height:100%;display:block}
+.intro-copy{position:absolute;left:0;right:0;bottom:0;padding-bottom:max(28px,4vh);z-index:2;pointer-events:none}
+.intro-copy .inner{max-width:none;display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap}
+.intro-copy p{font-size:clamp(17px,1.6vw,22px);max-width:30ch}
+.intro-copy .btn{pointer-events:auto}
+.scroll-cue{display:flex;align-items:center;gap:10px}
+.scroll-cue i{display:block;width:1.5px;height:38px;background:var(--ink);transform-origin:top;animation:cue 1.8s ease-in-out infinite}
+@keyframes cue{0%{transform:scaleY(0)}50%{transform:scaleY(1)}100%{transform:scaleY(1);opacity:0}}
+.end-cap{position:absolute;left:0;right:0;bottom:12vh;z-index:3;color:#fff;opacity:0;transform:translateY(20px);transition:opacity .6s, transform .6s;pointer-events:none}
+.end-cap.on{opacity:1;transform:none;pointer-events:auto}
+.end-cap h1{font-size:clamp(56px,9vw,150px);max-width:9ch;text-shadow:0 2px 40px rgba(16,42,58,.35)}
+.end-cap .row{display:flex;gap:12px;margin-top:26px;flex-wrap:wrap}
+.end-cap .btn-line{color:#fff}
+.end-cap .btn-line:hover{background:#fff;color:var(--ink)}
+.intro.static{height:auto}
+.intro.static .stick{position:relative}
+
+/* proof strip */
+.proof{border-bottom:1.5px solid var(--ink)}
+.proof .inner{max-width:none;display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
+.proof div{padding:22px 18px 22px 0;display:flex;flex-direction:column;gap:2px}
+.proof div+div{padding-left:18px;border-left:1.5px solid var(--ink)}
+.proof b{font-family:var(--display);font-weight:400;font-size:clamp(34px,4vw,54px);line-height:1}
+.proof span{font-size:14px}
+@media (max-width:760px){.proof .inner{grid-template-columns:repeat(2,minmax(0,1fr))}.proof div:nth-child(3){padding-left:0;border-left:0}.proof div:nth-child(n+3){border-top:1.5px solid var(--ink)}}
+
+/* day on the ridge: horizontal */
+.ridge{position:relative;height:420vh;background:var(--ink);color:var(--paper)}
+.ridge .stick{position:sticky;top:0;height:100svh;overflow:hidden;display:flex;flex-direction:column;justify-content:center;gap:3vh}
+.day-head{display:flex;justify-content:space-between;align-items:baseline;gap:20px;flex-wrap:wrap}
+.day-head h2{font-size:clamp(44px,6vw,92px);color:var(--grass)}
+.clock{display:flex;gap:6px;align-items:center}
+.clock i{display:block;width:34px;height:3px;background:var(--line-l);transition:background .3s}
+.clock i.on{background:var(--grass)}
+.track{display:flex;gap:3vw;padding-left:var(--gl);padding-right:var(--gr);will-change:transform}
+.panel{flex:0 0 min(76vw,1100px);display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:28px;align-items:end}
+.panel .media{position:relative;aspect-ratio:3/2;overflow:hidden;background:#17394d}
+.panel .media img,.panel .media video{width:100%;height:100%;object-fit:cover;display:block}
+.panel h3{font-size:clamp(44px,5.2vw,84px);color:var(--grass)}
+.panel .when{margin-bottom:14px;color:var(--glass)}
+.panel p{margin-top:16px;max-width:34ch;color:#E3E9E7}
+@media (max-width:860px){.panel{flex-basis:84vw;grid-template-columns:1fr;gap:16px}.panel .media{aspect-ratio:4/3}.day-head h2{font-size:40px}}
+.ridge.static{height:auto}.ridge.static .stick{position:relative;height:auto;padding-block:80px}
+.ridge.static .track{overflow-x:auto;scroll-snap-type:x mandatory}.ridge.static .panel{scroll-snap-align:start}
+
+/* the dome */
+.dome{padding-block:clamp(80px,12vw,170px)}
+.dome .inner{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:clamp(30px,6vw,96px);align-items:center}
+.prism{position:relative;aspect-ratio:1.12/1;clip-path:polygon(50% 0,100% 100%,0 100%);background:var(--ink)}
+.prism video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.dome h2{font-size:clamp(52px,7vw,112px)}
+.dome .lede{margin-top:22px;font-size:19px;max-width:44ch}
+.spec{margin:36px 0 0;border-top:1.5px solid var(--ink)}
+.spec div{display:grid;grid-template-columns:9.5em minmax(0,1fr);gap:16px;padding:13px 0;border-bottom:1px solid var(--line)}
+.spec dt{font-stretch:125%;font-weight:600;font-size:13px;padding-top:3px}
+.spec dd{margin:0}
+@media (max-width:860px){.dome .inner{grid-template-columns:1fr}.prism{max-width:560px}}
+
+/* films */
+.films{background:var(--grass-2);padding-block:clamp(70px,9vw,120px)}
+.films-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(16px,2.4vw,32px);margin-top:36px}
+@media (max-width:760px){.films-grid{grid-template-columns:1fr}}
+.films h2{font-size:clamp(46px,6vw,90px)}
+.film{position:relative;display:block;border:0;padding:0;background:var(--ink);aspect-ratio:16/10;overflow:hidden;text-align:left}
+.film img,.film video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .8s cubic-bezier(.2,.7,.2,1)}
+.film:hover img,.film:hover video{transform:scale(1.04)}
+.film .cap{position:absolute;left:0;right:0;bottom:0;padding:22px;color:#fff;display:flex;justify-content:space-between;align-items:flex-end;gap:12px;background:linear-gradient(0deg,rgba(16,42,58,.75),rgba(16,42,58,0))}
+.film .cap b{font-family:var(--display);font-weight:400;font-size:clamp(30px,3.2vw,46px);line-height:1}
+.film .play{width:58px;height:58px;flex:none;border-radius:50%;background:var(--grass);color:var(--ink);display:grid;place-items:center}
+.film .play i{display:block;width:0;height:0;border-left:15px solid currentColor;border-top:9px solid transparent;border-bottom:9px solid transparent;margin-left:4px}
+
+/* gallery: contact sheet */
+.sheet{padding-block:clamp(80px,10vw,140px)}
+.sheet-head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap}
+.sheet h2{font-size:clamp(46px,6vw,90px);max-width:12ch}
+.cols{columns:3 300px;column-gap:14px;margin-top:40px}
+.cols button{display:block;width:100%;border:0;padding:0;margin:0 0 14px;background:var(--grass-2);break-inside:avoid;overflow:hidden}
+.cols img{width:100%;height:auto;display:block;transition:transform .7s cubic-bezier(.2,.7,.2,1)}
+.cols button:hover img{transform:scale(1.03)}
+
+/* booking */
+.book{background:var(--ink);color:var(--paper);padding-block:clamp(80px,10vw,140px)}
+.book-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap}
+.book-head h2{font-size:clamp(56px,8vw,128px);color:var(--grass)}
+.book-head p{margin-top:16px;max-width:52ch;color:#D9E2E0}
+.save-chip{background:var(--grass);color:var(--ink);padding:.7em 1.1em;font-stretch:112%;font-weight:600;font-size:15px;white-space:nowrap}
+.book-grid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:clamp(20px,3vw,40px);margin-top:48px;align-items:start}
+@media (max-width:960px){.book-grid{grid-template-columns:1fr}}
+.cal-card{background:var(--paper);color:var(--ink);padding:clamp(16px,3vw,30px)}
+.cal-top{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.icon-btn{width:46px;height:46px;border-radius:50%;border:1.5px solid currentColor;background:transparent;display:grid;place-items:center;font-size:20px;line-height:1}
+.icon-btn:disabled{opacity:.25;cursor:default}
+.cal-hint{font-size:15px;text-align:center;flex:1}
+.months{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:30px;margin-top:20px}
+@media (max-width:640px){.months{grid-template-columns:1fr}.months .month:nth-child(2){display:none}}
+.month h3{font-family:var(--display);font-size:30px;text-align:left;margin-bottom:10px}
+.dow,.days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr))}
+.dow span{text-align:center;font-size:12px;font-stretch:125%;font-weight:600;padding-bottom:6px;color:#4C6370}
+.day{aspect-ratio:1;border:0;background:transparent;font-size:15px;font-variant-numeric:tabular-nums;position:relative;border-radius:0;color:var(--ink)}
+.day:hover:not(:disabled){background:#F1E3C0}
+.day:disabled{color:#AEB8BC;cursor:default;text-decoration:line-through;text-decoration-color:rgba(16,42,58,.3)}
+.day.past:disabled{text-decoration:none}
+.day.in{background:#F3E2B8}
+.day.start,.day.end{background:var(--ink);color:var(--grass)}
+.day.today::after{content:"";position:absolute;left:50%;bottom:14%;width:5px;height:5px;background:var(--lake);transform:translateX(-50%);clip-path:polygon(50% 0,100% 100%,0 100%)}
+.cal-legend{display:flex;flex-wrap:wrap;gap:16px;margin-top:16px;font-size:13px;color:#4C6370}
+.cal-legend i{display:inline-block;width:12px;height:12px;vertical-align:-1px;margin-right:6px}
+.sample-note{margin-top:14px;font-size:13px;background:#F3E2B8;padding:9px 12px}
+.sum{background:var(--grass);color:var(--ink);padding:clamp(20px,3vw,30px);position:sticky;top:calc(80px + env(safe-area-inset-top,0px))}
+.sum h3{font-size:40px}
+.sum .dates{display:grid;grid-template-columns:1fr 1fr;margin-top:16px;border:1.5px solid var(--ink)}
+.sum .dates div{padding:10px 14px}
+.sum .dates div+div{border-left:1.5px solid var(--ink)}
+.sum .dates small{display:block;font-size:12px;font-stretch:118%;font-weight:600}
+.sum .dates b{font-weight:500;font-variant-numeric:tabular-nums}
+.field{display:grid;gap:6px;margin-top:14px}
+.field label{font-size:13px;font-stretch:118%;font-weight:600}
+.field input,.field select,.field textarea{background:var(--paper);border:1.5px solid var(--ink);color:var(--ink);border-radius:0;padding:11px 12px;font:inherit;font-size:16px;width:100%}
+.field textarea{min-height:70px;resize:vertical}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:420px){.row2{grid-template-columns:1fr}}
+.lines{margin-top:20px;border-top:1.5px solid var(--ink);padding-top:14px;display:grid;gap:8px;font-variant-numeric:tabular-nums}
+.lines div{display:flex;justify-content:space-between;gap:12px;font-size:15px}
+.lines .total{border-top:1.5px solid var(--ink);padding-top:12px;margin-top:4px;font-weight:700;font-size:19px}
+.lines .saving{color:var(--lake);font-weight:600}
+.sum .btn{width:100%;justify-content:center;margin-top:18px;padding:1.1em}
+.sum .btn:disabled{opacity:.4;cursor:not-allowed}
+.fine{margin-top:12px;font-size:13px;line-height:1.5}
+.err{margin-top:10px;font-size:14px;color:#8E2F1C;font-weight:600}
+.empty-sum{margin-top:16px;font-size:15px}
+.preview-box{margin-top:14px;background:var(--paper);border:1.5px solid var(--ink);padding:14px;font-size:14px}
+
+/* plan + host */
+.plan{padding-block:clamp(80px,10vw,140px)}
+.plan .inner{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(40px,6vw,90px)}
+@media (max-width:820px){.plan .inner{grid-template-columns:1fr}}
+.plan h2{font-size:clamp(44px,5vw,72px)}
+.drive{margin-top:24px;border-top:1.5px solid var(--ink)}
+.drive div{display:flex;justify-content:space-between;gap:16px;padding:12px 0;border-bottom:1px solid var(--line)}
+.drive span:last-child{font-stretch:118%;font-weight:600;font-size:14px;white-space:nowrap}
+.rules{margin:24px 0 0;padding:0;list-style:none;display:grid;gap:14px}
+.rules li{display:grid;grid-template-columns:18px minmax(0,1fr);gap:10px;max-width:56ch}
+.rules li .tri{font-size:18px;margin-top:.2em;color:var(--lake)}
+.host{background:var(--grass-2)}
+.host .inner{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:clamp(30px,6vw,90px);align-items:center;padding-block:clamp(70px,9vw,120px)}
+@media (max-width:820px){.host .inner{grid-template-columns:1fr}}
+.host img{width:100%;aspect-ratio:4/5;object-fit:cover;display:block}
+.host h2{font-size:clamp(46px,6vw,88px)}
+.host p{margin-top:20px;max-width:52ch;font-size:18px}
+.contact{display:grid;gap:12px;margin-top:28px}
+.contact div{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.contact b{font-weight:600;user-select:all}
+.copy-btn{border:1.5px solid var(--ink);background:transparent;font-size:13px;padding:.3em .8em;font-stretch:112%;font-weight:600}
+
+/* footer: giant wordmark */
+footer{background:var(--ink);color:var(--grass);overflow:hidden;padding-bottom:env(safe-area-inset-bottom,0px)}
+.foot-top{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-block:28px;font-size:14px;color:#D9E2E0}
+.foot-wm{font-family:var(--display);font-size:22.5vw;line-height:.78;letter-spacing:.02em;white-space:nowrap;text-align:center;padding-bottom:1.5vw;display:flex;justify-content:center;align-items:baseline}
+.foot-wm svg{height:.69em;width:.78em;margin:0 .03em;overflow:visible}
+
+.mbar{position:fixed;left:0;right:0;bottom:0;z-index:55;display:none;background:var(--ink);color:var(--grass);padding:10px var(--gr) calc(10px + env(safe-area-inset-bottom,0px)) var(--gl);align-items:center;justify-content:space-between;gap:12px;transform:translateY(110%);transition:transform .3s}
+.mbar.show{transform:none}
+.mbar b{font-family:var(--display);font-weight:400;font-size:28px}
+.mbar .btn{background:var(--grass);color:var(--ink)}
+@media (max-width:760px){.mbar{display:flex}}
+
+.overlay{position:fixed;inset:0;z-index:90;background:rgba(10,26,36,.96);display:flex;align-items:center;justify-content:center;padding:calc(60px + env(safe-area-inset-top,0px)) var(--gr) calc(24px + env(safe-area-inset-bottom,0px)) var(--gl)}
+.overlay video,.overlay img{max-width:100%;max-height:100%;background:#000}
+.overlay .icon-btn{color:#fff;background:rgba(16,42,58,.6)}
+.ov-close{position:absolute;top:calc(12px + env(safe-area-inset-top,0px));right:calc(12px + env(safe-area-inset-right,0px))}
+.ov-prev,.ov-next{position:absolute;top:50%;transform:translateY(-50%)}
+.ov-prev{left:calc(12px + env(safe-area-inset-left,0px))}.ov-next{right:calc(12px + env(safe-area-inset-right,0px))}
+.banner{background:var(--lake);color:#fff;text-align:center;font-weight:600;padding:12px 16px}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .scroll-cue i{animation:none}
+  .film img,.film video,.cols img,.end-cap,.nav{transition:none}
+}
+</style>
+
+<header class="nav wrap" id="nav">
+  <div class="inner">
+    <a class="wm-small" href="#top" aria-label="Glashaus home"><span aria-hidden="true">GL</span><svg viewBox="0 0 100 90" aria-hidden="true"><polygon points="50,3 98,88 2,88" fill="#1D5C80" fill-opacity=".22"/><path d="M50 3 L98 88 L2 88 Z M26 45.5 L74 45.5 L50 88 Z" fill="none" stroke="#102A3A" stroke-width="5" stroke-linejoin="round"/></svg><span aria-hidden="true">SHAUS</span></a>
+    <nav class="nav-r" aria-label="Main">
+      <a class="tx" href="#day">A day here</a>
+      <a class="tx" href="#dome">The dome</a>
+      <a class="tx" href="#photos">Photos</a>
+      <a class="btn btn-ink" href="#book">Book direct</a>
+    </nav>
+  </div>
+</header>
+
+<div id="successBanner" class="banner" hidden>Your stay is booked. A confirmation is on its way to your email.</div>
+
+<main id="top">
+  <section class="intro" id="intro" aria-label="Glashaus">
+    <div class="stick">
+      <video id="heroVid" muted loop playsinline autoplay preload="auto" poster="assets/video/poster-hero-1080.jpg" aria-hidden="true"></video>
+      <svg id="wm" role="img" aria-label="Glashaus, with drone footage of the dome showing through the letters" preserveAspectRatio="none">
+        <defs>
+          <mask id="holes" maskUnits="userSpaceOnUse"><rect id="hR" fill="#fff"></rect><g id="hG"></g></mask>
+          <mask id="solid" maskUnits="userSpaceOnUse"><rect id="sR" fill="#000"></rect><g id="sG"></g></mask>
+          <linearGradient id="sheen" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="#fff" stop-opacity="0"></stop>
+            <stop offset=".42" stop-color="#fff" stop-opacity=".0"></stop>
+            <stop offset=".5" stop-color="#fff" stop-opacity=".95"></stop>
+            <stop offset=".58" stop-color="#fff" stop-opacity=".0"></stop>
+            <stop offset="1" stop-color="#fff" stop-opacity="0"></stop>
+          </linearGradient>
+        </defs>
+        <rect id="ground" fill="#E4C27A" mask="url(#holes)"></rect>
+        <g mask="url(#solid)"><rect id="band" fill="url(#sheen)"></rect></g>
+        <g id="frame" fill="none" stroke="#102A3A" stroke-linejoin="round" opacity="0"></g>
+      </svg>
+      <div class="intro-copy wrap" id="introCopy">
+        <div class="inner">
+          <p>A 20-foot glass dome for two on twenty private acres above New Melones Lake, Angels Camp, California.</p>
+          <div class="scroll-cue wide"><i aria-hidden="true"></i>Scroll to fly in</div>
+        </div>
+      </div>
+      <div class="end-cap wrap" id="endCap">
+        <div class="inner">
+          <h1>Sleep under glass, above the lake.</h1>
+          <div class="row">
+            <a class="btn btn-ink" href="#book" style="background:var(--grass);color:var(--ink)">Check dates</a>
+            <button class="btn btn-line" type="button" data-film="assets/video/film-arrival.mp4" data-title="The arrival film">Watch the full flyover</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="proof wrap" aria-label="At a glance">
+    <div class="inner">
+      <div><b>4.91</b><span>from 199 Airbnb reviews</span></div>
+      <div><b>20 ft</b><span>geodesic glass dome</span></div>
+      <div><b>±20</b><span>private acres on the ridge</span></div>
+      <div><b>20%</b><span>in Airbnb fees you skip here</span></div>
+    </div>
+  </section>
+
+  <section class="ridge" id="day" aria-label="A day at Glashaus">
+    <div class="stick">
+      <div class="wrap"><div class="inner day-head" style="max-width:none">
+        <h2>A day on the ridge</h2>
+        <div class="clock" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i></div>
+      </div></div>
+      <div class="track" id="track">
+        <article class="panel">
+          <div class="media"><img src="assets/img/dome-above-fog.jpg" alt="The glass dome above a sea of morning fog" loading="lazy"></div>
+          <div><div class="when wide">Sunrise</div><h3>Above the clouds</h3><p>On cool mornings, fog fills the canyon and the dome sits above it. Coffee on the deck, still in bed or on the swing.</p></div>
+        </article>
+        <article class="panel">
+          <div class="media"><video data-src="assets/video/loop-lake.mp4" poster="assets/video/poster-loop-lake.jpg" muted loop playsinline preload="none" aria-label="Drone view of New Melones Lake"></video></div>
+          <div><div class="when wide">Midday</div><h3>Down the hill</h3><p>From the ridge, the lake is all view. For swimming, boating and fishing, its public recreation areas are a short drive away, and Murphys wine tasting is about twenty minutes.</p></div>
+        </article>
+        <article class="panel">
+          <div class="media"><video data-src="assets/video/loop-perch.mp4" poster="assets/video/poster-loop-perch.jpg" muted loop playsinline preload="none" aria-label="The Perch outdoor kitchen looking over the lake"></video></div>
+          <div><div class="when wide">Golden hour</div><h3>Dinner at The Perch</h3><p>A covered kitchen deck on the edge of the ridge, with a cooktop, grill and a bar for two facing the lake.</p></div>
+        </article>
+        <article class="panel">
+          <div class="media"><img src="assets/img/dome-supermoon.jpg" alt="A full moon rising over the glass dome" loading="lazy"></div>
+          <div><div class="when wide">After dark</div><h3>Stars through the ceiling</h3><p>Fire table, a soaking tub set into the rocks, then bed under the open sky, with glass on every side.</p></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="dome wrap" id="dome" aria-label="The dome">
+    <div class="inner">
+      <div class="prism"><video data-src="assets/video/loop-orbit.mp4" poster="assets/video/poster-loop-orbit.jpg" muted loop playsinline preload="none" aria-label="Looking straight down at the dome from a drone"></video></div>
+      <div>
+        <h2>The dome</h2>
+        <p class="lede">A geodesic room of triangulated glass at the edge of the ridge. The glass warms with the sun and cools at night, so spend summer afternoons out exploring and come home for sunset.</p>
+        <dl class="spec">
+          <div><dt>Sleeps</dt><dd>Up to 2 guests, one bed facing the lake</dd></div>
+          <div><dt>Structure</dt><dd>20-foot geodesic dome, triple-layer glass</dd></div>
+          <div><dt>Bath</dt><dd>Private bath with rain shower</dd></div>
+          <div><dt>Outdoors</dt><dd>Private deck, soaking tub on the rocks, fire table, swing</dd></div>
+          <div><dt>Kitchen</dt><dd>The Perch, a covered outdoor kitchen, new in 2026</dd></div>
+          <div><dt>Warmth</dt><dd>Fireplace, fall through spring</dd></div>
+          <div><dt>Land</dt><dd>±20 private acres above New Melones Lake</dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="films wrap" aria-label="Films">
+    <div class="inner">
+      <h2>Two short films</h2>
+      <div class="films-grid">
+        <button class="film" type="button" data-film="assets/video/film-arrival.mp4" data-title="The arrival film">
+          <img src="assets/video/poster-film-arrival.jpg" alt="" loading="lazy">
+          <span class="cap"><span><span class="wide" style="display:block;margin-bottom:8px">53 seconds</span><b>The arrival</b></span><span class="play" aria-hidden="true"><i></i></span></span>
+        </button>
+        <button class="film" type="button" data-film="assets/video/film-kitchen.mp4" data-title="The Perch film">
+          <img src="assets/video/poster-film-kitchen.jpg" alt="" loading="lazy">
+          <span class="cap"><span><span class="wide" style="display:block;margin-bottom:8px">40 seconds</span><b>The Perch</b></span><span class="play" aria-hidden="true"><i></i></span></span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section class="sheet wrap" id="photos" aria-label="Photos">
+    <div class="inner">
+      <div class="sheet-head">
+        <h2>Fog, moonrise, firelight</h2>
+        <span class="wide">Tap any photo to enlarge</span>
+      </div>
+      <div class="cols" id="cols"></div>
+    </div>
+  </section>
+
+  <section class="book wrap" id="book" aria-label="Book your stay">
+    <div class="inner">
+      <div class="book-head">
+        <div>
+          <h2>Book your stay</h2>
+          <p>Pick your check-in and check-out days. You'll see the full price before you pay, and your dates are held while you check out.</p>
+        </div>
+        <div class="save-chip" id="fromChip">Direct from $—/night</div>
+      </div>
+      <div class="book-grid">
+        <div class="cal-card">
+          <div class="cal-top">
+            <button class="icon-btn" type="button" id="calPrev" aria-label="Previous month">‹</button>
+            <div class="cal-hint" id="calHint" aria-live="polite">Select your check-in day</div>
+            <button class="icon-btn" type="button" id="calNext" aria-label="Next month">›</button>
+          </div>
+          <div class="months" id="months"></div>
+          <div class="cal-legend">
+            <span><i style="background:var(--ink)"></i>Your stay</span>
+            <span><i style="background:#D3DADD"></i>Booked</span>
+            <span><i style="background:var(--lake);clip-path:polygon(50% 0,100% 100%,0 100%)"></i>Today</span>
+          </div>
+          <div class="sample-note" id="sampleNote" hidden>This preview shows sample availability. Once the site is live, this calendar reads your Airbnb calendar so no night can be booked twice.</div>
+        </div>
+        <form class="sum" id="bookForm" novalidate>
+          <h3>Your stay</h3>
+          <div class="dates">
+            <div><small>Check-in, 3 pm</small><b id="sumIn">Add date</b></div>
+            <div><small>Check-out, 11 am</small><b id="sumOut">Add date</b></div>
+          </div>
+          <div class="field">
+            <label for="guests">Guests</label>
+            <select id="guests" name="guests"><option value="2">2 guests</option><option value="1">1 guest</option></select>
+          </div>
+          <div id="priceArea"><p class="empty-sum">Choose dates on the calendar to see your total.</p></div>
+          <div id="guestFields" hidden>
+            <div class="row2">
+              <div class="field"><label for="gName">Full name</label><input id="gName" name="name" autocomplete="name" required></div>
+              <div class="field"><label for="gPhone">Mobile</label><input id="gPhone" name="phone" type="tel" autocomplete="tel" required></div>
+            </div>
+            <div class="field"><label for="gEmail">Email</label><input id="gEmail" name="email" type="email" autocomplete="email" required></div>
+            <div class="field"><label for="gNote">Anything we should know? (optional)</label><textarea id="gNote" name="note" placeholder="Celebrating something, arrival time, questions"></textarea></div>
+          </div>
+          <button class="btn btn-ink" type="submit" id="payBtn" disabled>Continue to secure payment</button>
+          <p class="err" id="formErr" role="alert" hidden></p>
+          <div class="preview-box" id="previewBox" hidden></div>
+          <p class="fine">All prices are in US dollars. Payments are processed securely by Stripe, and we never see or store your card number. By continuing, you agree to our <a href="terms.html">booking terms and cancellation policy</a>: full refund if you cancel 14 or more days before check-in, 50 percent after that.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section class="plan wrap" aria-label="Plan your stay">
+    <div class="inner">
+      <div>
+        <h2>Getting here</h2>
+        <p style="margin-top:16px;max-width:50ch">Glashaus is just outside Angels Camp in Calaveras County. You'll get the exact address and gate details after you book.</p>
+        <div class="drive">
+          <div><span>Downtown Angels Camp</span><span>about 10 min</span></div>
+          <div><span>Murphys wine tasting</span><span>about 20 min</span></div>
+          <div><span>Sonora and Columbia</span><span>about 30 min</span></div>
+          <div><span>Arnold and Big Trees</span><span>about 45 min</span></div>
+          <div><span>Sacramento</span><span>about 1 hr 45 min</span></div>
+          <div><span>San Francisco Bay Area</span><span>about 2 hr 30 min</span></div>
+        </div>
+      </div>
+      <div>
+        <h2>Good to know</h2>
+        <ul class="rules">
+          <li><span class="tri" aria-hidden="true"></span><span>Check-in from 3 pm with a self check-in code. Check-out by 11 am.</span></li>
+          <li><span class="tri" aria-hidden="true"></span><span>Up to 2 guests. No pets and no smoking anywhere on the property.</span></li>
+          <li><span class="tri" aria-hidden="true"></span><span>The fireplace runs in the cooler months, fall through spring.</span></li>
+          <li><span class="tri" aria-hidden="true"></span><span>Glass holds the sun. On hot days, plan your afternoon in Murphys or at one of the lake's public recreation areas, and come home for sunset.</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="host wrap" aria-label="Your host">
+    <div class="inner">
+      <img src="assets/img/swing-sunrise.jpg" alt="Sunrise from the swing chair at Glashaus" loading="lazy">
+      <div>
+        <h2>We host every stay ourselves.</h2>
+        <p>We're Sara Cooper and James Beyersdorf. We live about ten minutes away in Angels Camp, we take care of Glashaus ourselves, and one of us answers when you text. Ask us for a dinner reservation in Murphys, where to put in a kayak on New Melones, or where to watch the sunset if you want to leave the ridge.</p>
+        <div class="contact">
+          <div>Text or call <b id="phoneTxt">(209) 559-4966</b><button class="copy-btn" type="button" data-copy="phoneTxt">Copy</button></div>
+          <div>Email <b id="emailTxt">glashausresort@gmail.com</b><button class="copy-btn" type="button" data-copy="emailTxt">Copy</button></div>
+          <div>Instagram <a href="https://www.instagram.com/glashausresort/" target="_blank" rel="noopener" style="font-weight:600">@glashausresort</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap"><div class="inner foot-top" style="max-width:none">
+    <span>Glashaus, Angels Camp, California 95222  ·  (209) 559-4966  ·  glashausresort@gmail.com</span>
+    <span><a href="terms.html" style="color:inherit">Booking terms and cancellation</a>  ·  <a href="privacy.html" style="color:inherit">Privacy policy</a>  ·  <a href="https://airbnb.com/h/glashaus" target="_blank" rel="noopener" style="color:inherit">Airbnb listing</a></span>
+  </div></div>
+  <div class="foot-wm" aria-hidden="true"><span>GL</span><svg viewBox="0 0 100 90"><polygon points="50,3 98,88 2,88" fill="#BFE3F2" fill-opacity=".18"/><path d="M50 3 L98 88 L2 88 Z M26 45.5 L74 45.5 L50 88 Z" fill="none" stroke="#E4C27A" stroke-width="2.5" stroke-linejoin="round"/></svg><span>SHAUS</span></div>
+</footer>
+
+<div class="mbar" id="mbar">
+  <div><b id="mbarPrice">$—</b> <span style="font-size:14px">/ night direct</span></div>
+  <a class="btn" href="#book">Check dates</a>
+</div>
+
+<div class="overlay" id="filmOv" hidden role="dialog" aria-modal="true" aria-label="Film">
+  <button class="icon-btn ov-close" type="button" id="filmClose" aria-label="Close film">✕</button>
+  <video id="filmVid" controls playsinline></video>
+</div>
+<div class="overlay" id="lightbox" hidden role="dialog" aria-modal="true" aria-label="Photo">
+  <button class="icon-btn ov-close" type="button" id="lbClose" aria-label="Close photo">✕</button>
+  <button class="icon-btn ov-prev" type="button" id="lbPrev" aria-label="Previous photo">‹</button>
+  <img id="lbImg" alt="">
+  <button class="icon-btn ov-next" type="button" id="lbNext" aria-label="Next photo">›</button>
+</div>
+
+<script>
+/* ====== Booking settings: edit these, or set them in config.js on the live site ====== */
+window.GLASHAUS = Object.assign({
+  directNightly: { weeknight: 475, weekend: 499 },   // what guests pay per night on this site (Fri and Sat nights are "weekend")
+  airbnbFeeMarkup: 0.20,    // Airbnb guests pay about this much more once Airbnb's fees are added
+  cleaningFee: 0,          // no cleaning fee
+  lodgingTaxRate: 0.12,     // Calaveras County transient occupancy tax (unincorporated)
+  minNights: 1,
+  maxNightsAhead: 365,
+  maxGuests: 2,
+  apiBase: ""               // same site by default: /api/availability and /api/checkout
+}, window.GLASHAUS || {});
+</script>
+<script>
+(function(){
+const C = window.GLASHAUS;
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const small = matchMedia('(max-width: 760px)').matches;
+const NS = 'http://www.w3.org/2000/svg';
+const $ = id => document.getElementById(id);
+const clamp = (v,a,b) => Math.min(b, Math.max(a, v));
+const easeOut = t => 1 - Math.pow(1 - t, 3);
+
+/* ---------- intro: wordmark window, shimmer reveal, fly through the A ---------- */
+const hv = $('heroVid');
+hv.src = small ? 'assets/video/hero-720.mp4' : 'assets/video/hero-1080.mp4';
+hv.play && hv.play().catch(()=>{});
+
+const intro = $('intro'), svg = $('wm'), hG = $('hG'), sG = $('sG'), frame = $('frame'), band = $('band');
+const introCopy = $('introCopy'), endCap = $('endCap');
+let L = null;              // layout: glyph nodes, focus point, max scale
+let revealT0 = 0, revealed = false, shineT0 = -1;
+
+function mk(tag, attrs, parent){ const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); parent && parent.appendChild(e); return e; }
+
+function layout(){
+  const st = intro.querySelector('.stick');
+  const W = st.clientWidth, H = st.clientHeight;
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  for (const id of ['hR','sR','ground']) { const r = $(id); r.setAttribute('x',0); r.setAttribute('y',0); r.setAttribute('width',W); r.setAttribute('height',H); }
+  for (const m of svg.querySelectorAll('mask')) { m.setAttribute('x',0); m.setAttribute('y',0); m.setAttribute('width',W); m.setAttribute('height',H); }
+  band.setAttribute('y', -H*0.2); band.setAttribute('height', H*1.4); band.setAttribute('width', W*0.45);
+  hG.textContent = ''; sG.textContent = ''; frame.textContent = '';
+
+  // measure glyphs at 100px
+  const probe = mk('text', {'font-family':'Instrument Serif, Georgia, serif','font-size':100, x:-9999, y:-9999}, svg);
+  const glyphs = ['G','L','A','S','H','A','U','S'];
+  const widths = glyphs.map((g,i) => { if (i===2) return null; probe.textContent = g; return probe.getComputedTextLength(); });
+  probe.remove();
+  const capH = 70, triW = capH*1.12, track = 6;
+  let total = widths.reduce((s,w,i)=> s + (i===2 ? triW : w), 0) + track*7;
+  const F = Math.min(100 * (W*0.92)/total, 100 * (H*0.62)/capH * 0.9);
+  const k = F/100;
+  const baseY = H*(small ? 0.46 : 0.5) + capH*k/2;
+  let x = (W - total*k)/2;
+  const nodes = [];
+  glyphs.forEach((g,i)=>{
+    if (i===2){
+      const tx = x, tw = triW*k, th = capH*k;
+      const p = [[tx+tw/2, baseY-th],[tx+tw, baseY],[tx, baseY]];
+      const pts = p.map(q=>q.join(',')).join(' ');
+      const a = mk('polygon',{points:pts, fill:'#fff'}, hG);
+      const b = mk('polygon',{points:pts, fill:'#fff'}, sG);
+      nodes.push({a,b,i,tri:true});
+      // geodesic frame lines inside the A
+      const m1=[(p[0][0]+p[2][0])/2,(p[0][1]+p[2][1])/2], m2=[(p[0][0]+p[1][0])/2,(p[0][1]+p[1][1])/2], m3=[(p[1][0]+p[2][0])/2,(p[1][1]+p[2][1])/2];
+      mk('path',{d:`M${p[0]} L${p[1]} L${p[2]} Z M${m1} L${m2} L${m3} Z`, 'vector-effect':'non-scaling-stroke','stroke-width':small?2:3}, frame);
+      L = Object.assign(L||{}, {fx: tx+tw/2, fy: baseY - th/3, th});
+      x += tw + track*k;
+    } else {
+      const a = mk('text',{x, y:baseY, 'font-family':'Instrument Serif, Georgia, serif','font-size':F, fill:'#fff'}, hG); a.textContent = g;
+      const b = mk('text',{x, y:baseY, 'font-family':'Instrument Serif, Georgia, serif','font-size':F, fill:'#fff'}, sG); b.textContent = g;
+      nodes.push({a,b,i});
+      x += widths[i]*k + track*k;
+    }
+  });
+  L.W = W; L.H = H; L.F = F; L.nodes = nodes;
+  L.smax = 1.25 * Math.hypot(W, H) / (L.th/3);
+  if (revealed) paintReveal(1e9);
+  scrollIntro();
+}
+
+function paintReveal(now){
+  if (!L) return;
+  const t = now - revealT0; let done = true;
+  for (const n of L.nodes){
+    const e = easeOut(clamp((t - n.i*85)/750, 0, 1));
+    if (e < 1) done = false;
+    const v = Math.round(255*(1-e));
+    const col = `rgb(${v},${v},${v})`;
+    n.a.setAttribute('fill', col);
+    const dy = (1-e)*L.F*0.22;
+    n.a.setAttribute('transform', `translate(0 ${dy})`);
+    n.b.setAttribute('transform', `translate(0 ${dy})`);
+  }
+  frame.setAttribute('opacity', clamp((t-500)/600,0,1));
+  return done;
+}
+function shine(now){
+  if (!L) return;
+  if (shineT0 < 0) return;
+  const t = (now - shineT0)/1400;
+  if (t > 1){ band.setAttribute('x', -L.W); shineT0 = -1; return; }
+  const e = t<.5 ? 2*t*t : 1-Math.pow(-2*t+2,2)/2;
+  band.setAttribute('x', -L.W*0.5 + e*L.W*1.6);
+}
+
+function scrollIntro(){
+  if (!L) return;
+  const r = intro.getBoundingClientRect(), span = intro.offsetHeight - innerHeight;
+  const p = reduce ? 0 : clamp(-r.top / span, 0, 1);
+  const q = clamp((p - 0.06)/0.7, 0, 1);
+  const s = Math.exp(Math.log(L.smax) * Math.pow(q, 1.35));
+  const cx = L.fx + (L.W/2 - L.fx)*q, cy = L.fy + (L.H/2 - L.fy)*q;
+  const tf = `translate(${cx} ${cy}) scale(${s}) translate(${-L.fx} ${-L.fy})`;
+  hG.setAttribute('transform', tf); sG.setAttribute('transform', tf); frame.setAttribute('transform', tf);
+  svg.style.display = q >= 0.999 ? 'none' : '';
+  introCopy.style.opacity = clamp(1 - q*4, 0, 1);
+  endCap.classList.toggle('on', p > 0.78 || reduce && false);
+}
+
+function tick(now){
+  const done = paintReveal(now);
+  shine(now);
+  if (!done || shineT0 >= 0) requestAnimationFrame(tick);
+}
+function startReveal(){
+  revealed = true;
+  if (reduce){ revealT0 = -1e9; paintReveal(0); return; }
+  revealT0 = performance.now();
+  shineT0 = revealT0 + 900;
+  requestAnimationFrame(tick);
+}
+// repeat the glint every few seconds while the wordmark is on screen
+setInterval(()=>{
+  if (reduce || !L || shineT0 >= 0) return;
+  const r = intro.getBoundingClientRect();
+  if (-r.top < innerHeight*0.15 && r.bottom > 0 && document.visibilityState === 'visible'){ shineT0 = performance.now(); requestAnimationFrame(tick); }
+}, 6500);
+
+const fontsReady = (document.fonts && document.fonts.load) ? Promise.race([document.fonts.load('100px "Instrument Serif"'), new Promise(r=>setTimeout(r,2500))]) : Promise.resolve();
+fontsReady.then(()=>{ layout(); startReveal(); });
+let rz; addEventListener('resize', ()=>{ clearTimeout(rz); rz = setTimeout(layout, 150); });
+if (reduce){ intro.classList.add('static'); endCap.classList.add('on'); }
+
+/* ---------- nav + mobile bar ---------- */
+const nav = $('nav'), mbar = $('mbar'), bookEl = $('book');
+function onScroll(){
+  scrollIntro();
+  const ir = intro.getBoundingClientRect();
+  nav.classList.toggle('solid', ir.bottom < 64);
+  const br = bookEl.getBoundingClientRect();
+  mbar.classList.toggle('show', ir.bottom < innerHeight*0.4 && !(br.top < innerHeight && br.bottom > 0));
+  dayScroll();
+}
+addEventListener('scroll', onScroll, {passive:true});
+
+/* ---------- a day on the ridge: sideways ---------- */
+const day = $('day'), track = $('track'), ticks = [...day.querySelectorAll('.clock i')];
+function daySize(){ if (reduce){ day.classList.add('static'); return; } const extra = track.scrollWidth - innerWidth; day.style.height = (innerHeight + Math.max(0, extra) * 1.15) + 'px'; }
+function dayScroll(){
+  if (reduce) return;
+  const r = day.getBoundingClientRect(), span = day.offsetHeight - innerHeight;
+  const p = clamp(-r.top / span, 0, 1);
+  const extra = Math.max(0, track.scrollWidth - innerWidth);
+  track.style.transform = `translate3d(${-p*extra}px,0,0)`;
+  const idx = Math.min(ticks.length-1, Math.floor(p*ticks.length*0.999));
+  ticks.forEach((t,i)=>t.classList.toggle('on', i<=idx));
+}
+addEventListener('resize', ()=>{ daySize(); dayScroll(); });
+addEventListener('load', ()=>{ daySize(); dayScroll(); });
+daySize(); onScroll();
+
+/* ---------- lazy loops ---------- */
+const loops = [...document.querySelectorAll('video[data-src]')];
+const io = new IntersectionObserver(es=>{ for (const e of es){ const v = e.target;
+  if (e.isIntersecting){ if (!v.src){ v.src = v.dataset.src; v.load(); } if (!reduce) v.play().catch(()=>{}); } else if (v.src) v.pause(); } }, {rootMargin:'300px 300px'});
+loops.forEach(v=>io.observe(v));
+
+/* ---------- films ---------- */
+const filmOv = $('filmOv'), filmVid = $('filmVid'); let lastFocus = null;
+document.querySelectorAll('[data-film]').forEach(b=>b.addEventListener('click',()=>{
+  lastFocus = b; filmVid.src = b.dataset.film; filmOv.setAttribute('aria-label', b.dataset.title||'Film');
+  filmOv.hidden = false; filmVid.muted = false; filmVid.play().catch(()=>{}); $('filmClose').focus(); hv.pause(); loops.forEach(v=>v.pause());
+}));
+function closeFilm(){ filmVid.pause(); filmVid.removeAttribute('src'); filmVid.load(); filmOv.hidden = true; hv.play().catch(()=>{}); lastFocus && lastFocus.focus(); }
+$('filmClose').onclick = closeFilm;
+filmOv.addEventListener('click', e=>{ if (e.target===filmOv) closeFilm(); });
+
+/* ---------- photos ---------- */
+const photos = [
+  ['bed-above-clouds','The bed, looking out over the clouds'],['tub-and-dome','Soaking tub on the rocks beside the dome'],
+  ['perch-bar-bluehour','The Perch bar at blue hour'],['fire-table-sunset','Fire table at sunset over the lake'],
+  ['walkway-to-dome','The walkway to the dome'],['dome-rainbow','A rainbow over the dome'],
+  ['dome-view-from-bed','The lake view from bed'],['moon-path-lake','Moonlight on New Melones Lake'],
+  ['perch-lounge-night','The Perch lounge at night'],['lake-lupine-spring','Lupine above the lake in spring'],
+  ['dome-fireplace','The fireplace inside the dome'],['kitchen-grill','The grill at The Perch'],
+  ['dome-sunset-lake','The dome at sunset'],['tub-flowers','The tub among spring flowers']
+];
+const cols = $('cols');
+photos.forEach(([f,alt],i)=>{ const b = document.createElement('button'); b.type='button'; b.setAttribute('aria-label','Open photo: '+alt);
+  const im = new Image(); im.src='assets/img/'+f+'.jpg'; im.alt=alt; im.loading='lazy'; im.decoding='async'; b.appendChild(im); b.onclick=()=>openLb(i); cols.appendChild(b); });
+const lb = $('lightbox'), lbImg = $('lbImg'); let lbI = 0;
+const showLb = ()=>{ lbImg.src='assets/img/'+photos[lbI][0]+'.jpg'; lbImg.alt=photos[lbI][1]; };
+function openLb(i){ lbI=i; showLb(); lb.hidden=false; $('lbClose').focus(); }
+function closeLb(){ lb.hidden=true; cols.children[lbI] && cols.children[lbI].focus(); }
+$('lbClose').onclick = closeLb;
+$('lbPrev').onclick = ()=>{ lbI=(lbI+photos.length-1)%photos.length; showLb(); };
+$('lbNext').onclick = ()=>{ lbI=(lbI+1)%photos.length; showLb(); };
+lb.addEventListener('click', e=>{ if (e.target===lb) closeLb(); });
+addEventListener('keydown', e=>{
+  if (!lb.hidden){ if(e.key==='Escape') closeLb(); if(e.key==='ArrowLeft') $('lbPrev').click(); if(e.key==='ArrowRight') $('lbNext').click(); }
+  if (!filmOv.hidden && e.key==='Escape') closeFilm();
+});
+
+/* ---------- copy buttons ---------- */
+document.querySelectorAll('[data-copy]').forEach(b=>b.addEventListener('click',()=>{
+  const el = $(b.dataset.copy), txt = el.textContent.trim();
+  const done = ()=>{ b.textContent='Copied'; setTimeout(()=>b.textContent='Copy',1500); };
+  (navigator.clipboard ? navigator.clipboard.writeText(txt) : Promise.reject()).then(done).catch(()=>{ const r=document.createRange(); r.selectNodeContents(el); const s=getSelection(); s.removeAllRanges(); s.addRange(r); });
+}));
+
+/* ======================= Booking ======================= */
+const pad = n => String(n).padStart(2,'0');
+const key = d => d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+const fromKey = k => { const [y,m,d] = k.split('-').map(Number); return new Date(y,m-1,d); };
+const addDays = (d,n) => new Date(d.getFullYear(), d.getMonth(), d.getDate()+n);
+const money = n => '$' + Math.round(n).toLocaleString('en-US');
+const money2 = n => '$' + n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+
+function nightRates(d){
+  const dow = d.getDay(); // night of d
+  const direct = (dow===5 || dow===6) ? C.directNightly.weekend : C.directNightly.weeknight;
+  return { direct, air: Math.round(direct * (1 + C.airbnbFeeMarkup)) };
+}
+function quote(inD, outD){
+  let sub=0, air=0, n=0;
+  for (let d=inD; d<outD; d=addDays(d,1)){ const r=nightRates(d); sub+=r.direct; air+=r.air; n++; }
+  const taxable = sub + C.cleaningFee;
+  const tax = Math.round(taxable * C.lodgingTaxRate * 100)/100;
+  return { nights:n, sub, air, save: air-sub, cleaning:C.cleaningFee, tax, total: Math.round((taxable+tax)*100)/100 };
+}
+
+const fromRate = C.directNightly.weeknight;
+document.getElementById('fromChip').textContent = 'Direct from ' + money(fromRate) + '/night';
+document.getElementById('mbarPrice').textContent = money(fromRate);
+
+const today = new Date(); today.setHours(0,0,0,0);
+let booked = new Set(), demo = false;
+let view = new Date(today.getFullYear(), today.getMonth(), 1);
+let sel = { in:null, out:null };
+
+function demoBooked(){
+  const s = new Set();
+  // deterministic sample: a few weekends and a midweek block in the next months
+  const blocks = [[3,2],[9,3],[17,2],[24,4],[31,2],[45,3],[52,2],[58,5],[73,2],[80,2]];
+  for (const [o,len] of blocks) for (let i=0;i<len;i++) s.add(key(addDays(today,o+i)));
+  return s;
+}
+async function loadAvailability(){
+  try{
+    const r = await fetch((C.apiBase||'') + 'api/availability', {headers:{accept:'application/json'}});
+    if (!r.ok) throw 0;
+    const j = await r.json(); if (!Array.isArray(j.booked)) throw 0;
+    booked = new Set(j.booked);
+  } catch(e){ booked = demoBooked(); demo = true; document.getElementById('sampleNote').hidden = false; }
+  renderCal();
+}
+
+const monthsEl = document.getElementById('months'), hint = document.getElementById('calHint');
+const maxDate = addDays(today, C.maxNightsAhead);
+function rangeClear(a,b){ for(let d=a; d<b; d=addDays(d,1)) if (booked.has(key(d))) return false; return true; }
+
+function renderCal(){
+  monthsEl.innerHTML = '';
+  for (let m=0;m<2;m++){
+    const first = new Date(view.getFullYear(), view.getMonth()+m, 1);
+    const box = document.createElement('div'); box.className='month';
+    box.innerHTML = `<h3>${first.toLocaleString('en-US',{month:'long',year:'numeric'})}</h3><div class="dow">${['Su','Mo','Tu','We','Th','Fr','Sa'].map(x=>`<span>${x}</span>`).join('')}</div>`;
+    const grid = document.createElement('div'); grid.className='days';
+    for (let i=0;i<first.getDay();i++) grid.appendChild(document.createElement('span'));
+    const dim = new Date(first.getFullYear(), first.getMonth()+1, 0).getDate();
+    for (let day=1; day<=dim; day++){
+      const d = new Date(first.getFullYear(), first.getMonth(), day), k = key(d);
+      const b = document.createElement('button'); b.type='button'; b.className='day'; b.textContent=day;
+      const past = d < today, isBooked = booked.has(k), beyond = d > maxDate;
+      // a booked night can still be a check-out day for the night before
+      let disabled = past || beyond;
+      if (!sel.in || sel.out){ if (isBooked) disabled = true; }
+      else {
+        if (d <= sel.in) disabled = disabled || isBooked;
+        else disabled = disabled || !rangeClear(sel.in, d);
+      }
+      b.disabled = disabled;
+      if (past) b.classList.add('past');
+      if (+d === +today) b.classList.add('today');
+      if (sel.in && +d === +sel.in){ b.classList.add('start'); if (sel.out) b.classList.add('has-end'); }
+      if (sel.out && +d === +sel.out) b.classList.add('end');
+      if (sel.in && sel.out && d > sel.in && d < sel.out) b.classList.add('in');
+      const label = d.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'}) + (isBooked && !(sel.in && !sel.out && d>sel.in) ? ', booked' : '') + (!disabled ? ', ' + money(nightRates(d).direct) : '');
+      b.setAttribute('aria-label', label);
+      b.onclick = ()=>pick(d);
+      grid.appendChild(b);
+    }
+    box.appendChild(grid); monthsEl.appendChild(box);
+  }
+  document.getElementById('calPrev').disabled = view <= new Date(today.getFullYear(), today.getMonth(), 1);
+  hint.textContent = !sel.in ? 'Select your check-in day' : !sel.out ? 'Now select your check-out day' : quote(sel.in, sel.out).nights + ' nights selected. Tap a day to start over.';
+}
+function pick(d){
+  if (!sel.in || sel.out){ sel = {in:d, out:null}; }
+  else if (d <= sel.in){ sel = {in:d, out:null}; }
+  else {
+    const nights = Math.round((d - sel.in)/864e5);
+    if (nights < C.minNights){ hint.textContent = 'Minimum stay is ' + C.minNights + ' nights.'; return; }
+    sel.out = d;
+  }
+  renderCal(); renderSum();
+}
+document.getElementById('calPrev').onclick = ()=>{ view = new Date(view.getFullYear(), view.getMonth()-1, 1); renderCal(); };
+document.getElementById('calNext').onclick = ()=>{ view = new Date(view.getFullYear(), view.getMonth()+1, 1); renderCal(); };
+
+const fmt = d => d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
+const priceArea = document.getElementById('priceArea'), guestFields = document.getElementById('guestFields'), payBtn = document.getElementById('payBtn');
+function renderSum(){
+  document.getElementById('sumIn').textContent = sel.in ? fmt(sel.in) : 'Add date';
+  document.getElementById('sumOut').textContent = sel.out ? fmt(sel.out) : 'Add date';
+  document.getElementById('previewBox').hidden = true;
+  if (!(sel.in && sel.out)){ priceArea.innerHTML = '<p class="empty-sum">Choose dates on the calendar to see your total.</p>'; guestFields.hidden = true; payBtn.disabled = true; return; }
+  const q = quote(sel.in, sel.out);
+  priceArea.innerHTML = `<div class="lines">
+    <div><span>${q.nights} night${q.nights>1?'s':''}, direct rate</span><span>${money(q.sub)}</span></div>
+    ${q.cleaning ? `<div><span>Cleaning</span><span>${money(q.cleaning)}</span></div>` : ``}
+    <div><span>County lodging tax (${Math.round(C.lodgingTaxRate*100)}%)</span><span>${money2(q.tax)}</span></div>
+    <div class="total"><span>Total</span><span>${money2(q.total)}</span></div>
+    <div class="saving"><span>Airbnb fees you skip, about ${Math.round(C.airbnbFeeMarkup*100)}%</span><span>${money(q.save)}</span></div>
+  </div>`;
+  guestFields.hidden = false; payBtn.disabled = false;
+}
+
+const form = document.getElementById('bookForm'), errEl = document.getElementById('formErr');
+form.addEventListener('submit', async e=>{
+  e.preventDefault(); errEl.hidden = true;
+  const name = form.name.value.trim(), email = form.email.value.trim(), phone = form.phone.value.trim();
+  if (!sel.in || !sel.out){ errEl.textContent = 'Choose your check-in and check-out days first.'; errEl.hidden = false; return; }
+  if (!name || !phone || !/^\S+@\S+\.\S+$/.test(email)){ errEl.textContent = 'Add your name, mobile number and a valid email so we can send your confirmation.'; errEl.hidden = false; (name? (phone? form.email : form.phone) : form.name).focus(); return; }
+  const q = quote(sel.in, sel.out);
+  const body = { checkIn:key(sel.in), checkOut:key(sel.out), guests:+form.guests.value, name, email, phone, note: form.note.value.trim(), expectedTotal: q.total };
+  if (demo){
+    const pb = document.getElementById('previewBox');
+    pb.innerHTML = `This is the preview, so no card is charged. On the live site, this button opens Stripe's secure checkout for <b>${money2(q.total)}</b>, ${fmt(sel.in)} to ${fmt(sel.out)}. Once payment clears, the dates are blocked here and on Airbnb.`;
+    pb.hidden = false; return;
+  }
+  payBtn.disabled = true; payBtn.textContent = 'Opening secure checkout…';
+  try{
+    const r = await fetch((C.apiBase||'') + 'api/checkout', {method:'POST', headers:{'content-type':'application/json'}, body:JSON.stringify(body)});
+    const j = await r.json().catch(()=>({}));
+    if (!r.ok || !j.url) throw new Error(j.error || 'Checkout could not start.');
+    location.href = j.url;
+  } catch(err){
+    errEl.textContent = err.message + ' Your card was not charged. Try again, or text us at (209) 559-4966.';
+    errEl.hidden = false; payBtn.disabled = false; payBtn.textContent = 'Continue to secure payment';
+    if (/no longer available/i.test(err.message)) { sel = {in:null,out:null}; loadAvailability(); renderSum(); }
+  }
+});
+
+try { if (/booking=success/.test(location.search)) document.getElementById('successBanner').hidden = false; } catch(e){}
+loadAvailability(); renderSum();
+})();
+</script>

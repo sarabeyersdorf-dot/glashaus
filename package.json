@@ -1,0 +1,6 @@
+{
+  "name": "glashausresort",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=20" }
+}
