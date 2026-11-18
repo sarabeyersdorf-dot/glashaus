@@ -1,7 +1,11 @@
 // Stripe calls this when a checkout finishes or expires. Marks the stay paid (blocking the dates)
-// or releases the hold, and emails Sara and the guest when RESEND_API_KEY is set.
+// or releases the hold, emails Sara, and sends the guest's welcome email (lib/guest-emails.js).
 import crypto from 'node:crypto';
 import { bookingBySession, updateBooking } from '../lib/store.js';
+import { sendEmail, hostEmail, canEmailGuests } from '../lib/mail.js';
+import { sendDueGuestEmails } from '../lib/send-guest-emails.js';
+import { doorCode } from '../lib/guest-emails.js';
+import { todayPacific } from '../lib/pricing.js';
 
 export async function POST(request) {
   const raw = await request.text();
@@ -38,26 +42,17 @@ function verify(payload, header, secret) {
   return sigs.some(sig => sig.length === expected.length && crypto.timingSafeEqual(Buffer.from(sig), Buffer.from(expected)));
 }
 
+// The stay is already marked paid when this runs, so an email failure must never fail the webhook:
+// Stripe would retry, find the row paid, and skip. Missed guest emails are picked up by the daily run.
 async function notify(b) {
-  const key = process.env.RESEND_API_KEY;
-  if (!key) return;
-  const from = process.env.EMAIL_FROM || 'Glashaus <stay@glashausresort.com>';
-  const host = process.env.HOST_EMAIL || 'glashausresort@gmail.com';
   const d = s => new Date(s + 'T12:00:00Z').toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', timeZone: 'UTC' });
-  const send = async (to, subject, text) => {
-    const r = await fetch('https://api.resend.com/emails', {
-      method: 'POST', headers: { authorization: `Bearer ${key}`, 'content-type': 'application/json' },
-      body: JSON.stringify({ from, to, subject, text, reply_to: host }),
+  const code = doorCode(b);
+  try {
+    await sendEmail({
+      to: hostEmail(),
+      subject: `New direct booking: ${b.guest_name}, ${b.check_in} to ${b.check_out}`,
+      text: `${b.guest_name} booked Glashaus direct.\n\nCheck-in: ${d(b.check_in)}\nCheck-out: ${d(b.check_out)}\nNights: ${b.nights}\nGuests: ${b.guests}\nTotal paid: $${Number(b.total).toFixed(2)} (includes $${Number(b.tax).toFixed(2)} lodging tax to remit)\n\nPhone: ${b.guest_phone}\nEmail: ${b.guest_email}\nNote: ${b.guest_note || 'none'}\n\nDoor code: ${code ? `set the lock to ${code}# before arrival. The arrival-day email gives the guest this code.` : 'the phone number has fewer than 4 digits, so text the guest a door code yourself.'}\n\nThese dates now show as booked on glashausresort.com and in the calendar feed VRBO and Airbnb import.\n\n${canEmailGuests() ? 'The guest has been sent the welcome email. The local guide, arrival, checkout and thank-you emails follow on schedule.' : 'Guest emails are off until glashausresort.com is verified in Resend.'}`,
     });
-    if (!r.ok) console.error('resend', to === host ? 'host' : 'guest', r.status, await r.text());
-  };
-  // Resend's shared onboarding@resend.dev sender only reaches the Resend account's own address,
-  // so until glashausresort.com is verified in Resend the guest relies on Stripe's receipt.
-  const guestOk = !/@resend\.dev>?\s*$/i.test(from);
-  await Promise.allSettled([
-    send(host, `New direct booking: ${b.guest_name}, ${b.check_in} to ${b.check_out}`,
-      `${b.guest_name} booked Glashaus direct.\n\nCheck-in: ${d(b.check_in)}\nCheck-out: ${d(b.check_out)}\nNights: ${b.nights}\nGuests: ${b.guests}\nTotal paid: $${Number(b.total).toFixed(2)} (includes $${Number(b.tax).toFixed(2)} lodging tax to remit)\n\nPhone: ${b.guest_phone}\nEmail: ${b.guest_email}\nNote: ${b.guest_note || 'none'}\n\nThese dates now show as booked on glashausresort.com and in the calendar feed Airbnb imports.`),
-    guestOk && send(b.guest_email, 'Your Glashaus stay is booked',
-      `Hi ${b.guest_name.split(' ')[0]},\n\nYou're all set for Glashaus, ${d(b.check_in)} to ${d(b.check_out)}.\n\nCheck-in is from 3 pm and check-out is by 11 am. We'll text you the address, gate details and your door code a few days before you arrive.\n\nIf you need anything before then, text us at (209) 559-4966.\n\nSee you on the ridge,\nSara and James`),
-  ]);
+  } catch (e) { console.error('host email', e); }
+  try { await sendDueGuestEmails({ ...b, status: 'paid' }, todayPacific()); } catch (e) { console.error('guest emails', e); }
 }

@@ -1,5 +1,6 @@
 {
   "cleanUrls": true,
+  "crons": [{ "path": "/api/guest-emails", "schedule": "0 16 * * *" }],
   "rewrites": [{ "source": "/calendar.ics", "destination": "/api/calendar" }],
   "headers": [
     { "source": "/assets/(.*)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }] }
