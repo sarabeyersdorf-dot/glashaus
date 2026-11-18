@@ -2,7 +2,7 @@
 // e.g. the local guide the day before arrival, directions on arrival day, checkout morning, thank-you.
 // Safe to call any number of times: each email is sent at most once per booking.
 import { paidBookingsForEmails } from '../lib/store.js';
-import { sendDueGuestEmails } from '../lib/send-guest-emails.js';
+import { sendDueGuestEmails, sendLockReminder } from '../lib/send-guest-emails.js';
 import { todayPacific, fromUTC, toUTC } from '../lib/pricing.js';
 
 export async function GET(request) {
@@ -14,6 +14,7 @@ export async function GET(request) {
   for (const b of bookings) {
     try {
       const sent = await sendDueGuestEmails(b, today);
+      if (await sendLockReminder(b, today)) sent.push('lock_reminder');
       if (sent.length) results.push({ booking: b.id, sent });
     } catch (e) { console.error('guest-emails', b.id, e); }
   }
