@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<title>Glashaus House Rules</title>
+<!-- Printable house rules, one US Letter portrait page. Fonts are the site's (Instrument Serif,
+     Archivo); build-pdf.mjs embeds them and prints house-rules.pdf. Keep in step with house-manual.html. -->
+<style>
+@page{size:8.5in 11in;margin:0}
+:root{--grass:#E4C27A;--ink:#102A3A;--lake:#1D5C80;--paper:#FFFCF5;--line:rgba(16,42,58,.18)}
+*{box-sizing:border-box}html,body{margin:0}
+body{background:#fff;color:var(--ink);font-family:"Archivo",Arial,sans-serif;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.page{width:8.5in;height:11in;padding:.5in .5in .42in;display:flex;flex-direction:column;background:var(--paper)}
+header{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:2px solid var(--ink);padding-bottom:.12in}
+.wm{display:flex;align-items:baseline;font-family:"Instrument Serif",Georgia,serif;font-size:30pt;line-height:1;letter-spacing:.06em}
+.wm svg{height:.69em;width:.78em;margin:0 .05em 0 .01em;overflow:visible}
+header h1{font-family:"Instrument Serif",Georgia,serif;font-weight:400;font-size:30pt;line-height:1;margin:0}
+.intro{font-size:11.5pt;margin:.12in 0 .16in}
+.grid{flex:1;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(3,1fr);gap:.16in}
+.card{background:#fff;border:1px solid var(--line);border-top:.09in solid var(--grass);padding:.14in .18in .12in;display:flex;flex-direction:column}
+.card h2{font-family:"Instrument Serif",Georgia,serif;font-weight:400;font-size:23pt;line-height:1;margin:0 0 .1in;display:flex;align-items:center;gap:.1in}
+.card h2 svg{width:.24in;height:.24in;flex:none;stroke:var(--lake);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+ul,ol{margin:0;padding-left:1.05em;font-size:11.25pt;line-height:1.38}
+li{margin:0 0 .05in}li::marker{color:var(--lake)}
+b{font-weight:600}
+.fine{font-size:8.2pt;line-height:1.4;color:#3c5260;margin:.14in 0 0}
+footer{display:flex;justify-content:space-between;align-items:center;background:var(--grass);padding:.11in .18in;margin-top:.12in;font-size:10.5pt}
+footer .sig{font-family:"Instrument Serif",Georgia,serif;font-size:15pt}
+</style>
+<div class="page">
+  <header>
+    <div class="wm" aria-label="Glashaus"><span>GL</span><svg viewBox="0 0 100 90"><polygon points="50,3 98,88 2,88" fill="#1D5C80" fill-opacity=".22"/><path d="M50 3 L98 88 L2 88 Z M26 45.5 L74 45.5 L50 88 Z" fill="none" stroke="#102A3A" stroke-width="5" stroke-linejoin="round"/></svg><span>SHAUS</span></div>
+    <h1>House rules</h1>
+  </header>
+  <p class="intro">Welcome! A few things to know so your stay goes smoothly. Questions or something not working? Text us any time at <b>(209) 559-4966</b>.</p>
+
+  <div class="grid">
+    <section class="card">
+      <h2><svg viewBox="0 0 24 24"><path d="M3 21V9l9-6 9 6v12"/><path d="M9 21v-6h6v6"/></svg>Coming and going</h2>
+      <ul>
+        <li>Text us when you <b>arrive</b> and when you <b>leave</b>.</li>
+        <li>Maximum <b>2 guests</b>. No pets, no events.</li>
+        <li>A camera at the gate records incoming traffic.</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2><svg viewBox="0 0 24 24"><path d="M3 20a9 9 0 0 1 18 0Z"/><path d="M12 11v9M7.5 13.5 12 20l4.5-6.5"/></svg>In the dome</h2>
+      <ul>
+        <li>To open the curtains, push them in toward the dome and slide slowly along the track.</li>
+        <li>In summer, close the curtains when you're out to keep the dome cool.</li>
+        <li>Remotes are labeled.</li>
+        <li>Keep blankets inside and please don't move the furniture. Only the lights may go outside.</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2><svg viewBox="0 0 24 24"><path d="M12 3c1 3 5 5 5 10a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 3 2 3 0-3-1-6 1-9Z"/></svg>Fire</h2>
+      <ul>
+        <li><b>No wood fires or bonfires.</b></li>
+        <li>The <b>propane fire table</b> is yours to use. Instructions are on the table and propane is provided.</li>
+        <li><b>Indoor gas fireplace:</b> in winter it runs by remote, and the pilot light stays on even when the fire is off. In summer it is switched off so the pilot doesn't heat the dome.</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2><svg viewBox="0 0 24 24"><path d="M3 20l6-9 4 5 3-4 5 8Z"/><circle cx="17" cy="6" r="2"/></svg>Outside</h2>
+      <ul>
+        <li>The terrain is uneven. Watch your step, especially after dark.</li>
+        <li>There are wild animals and poison oak.</li>
+        <li>Outdoor solar lights are automatic. Please don't switch them off.</li>
+        <li>Put all garbage in the large bins outside and close the lids tightly.</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M5.6 5.6l12.8 12.8"/></svg>Please</h2>
+      <ul>
+        <li><b>No smoking or vaping</b>, inside or out.</li>
+        <li>No loud music after 9 PM, and please respect the neighbors.</li>
+        <li>Don't turn off any systems (gas or water).</li>
+        <li>Leave the property as you found it, and tell us if anything is missing or not working.</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Checking out</h2>
+      <ul>
+        <li>Check-out is by <b>11:00 AM</b>.</li>
+        <li>Arrange the curtains as you found them, including closing the top automated curtain.</li>
+        <li>Put all garbage and leftover food in a large grey can and secure the lid.</li>
+        <li>Text us when you leave.</li>
+      </ul>
+    </section>
+  </div>
+
+  <p class="fine">Use of the property is at your own risk, and you agree to hold the owners harmless for any injury or damage. We may cancel a stay for rule violations, including complaints from neighbors.</p>
+  <footer><span>If we can make your stay better, please let us know. Have an amazing time!</span><span class="sig">Sara &amp; James</span></footer>
+</div>
+</html>
