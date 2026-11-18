@@ -44,14 +44,20 @@ async function notify(b) {
   const from = process.env.EMAIL_FROM || 'Glashaus <stay@glashausresort.com>';
   const host = process.env.HOST_EMAIL || 'glashausresort@gmail.com';
   const d = s => new Date(s + 'T12:00:00Z').toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', timeZone: 'UTC' });
-  const send = (to, subject, text) => fetch('https://api.resend.com/emails', {
-    method: 'POST', headers: { authorization: `Bearer ${key}`, 'content-type': 'application/json' },
-    body: JSON.stringify({ from, to, subject, text, reply_to: host }),
-  });
+  const send = async (to, subject, text) => {
+    const r = await fetch('https://api.resend.com/emails', {
+      method: 'POST', headers: { authorization: `Bearer ${key}`, 'content-type': 'application/json' },
+      body: JSON.stringify({ from, to, subject, text, reply_to: host }),
+    });
+    if (!r.ok) console.error('resend', to === host ? 'host' : 'guest', r.status, await r.text());
+  };
+  // Resend's shared onboarding@resend.dev sender only reaches the Resend account's own address,
+  // so until glashausresort.com is verified in Resend the guest relies on Stripe's receipt.
+  const guestOk = !/@resend\.dev>?\s*$/i.test(from);
   await Promise.allSettled([
     send(host, `New direct booking: ${b.guest_name}, ${b.check_in} to ${b.check_out}`,
       `${b.guest_name} booked Glashaus direct.\n\nCheck-in: ${d(b.check_in)}\nCheck-out: ${d(b.check_out)}\nNights: ${b.nights}\nGuests: ${b.guests}\nTotal paid: $${Number(b.total).toFixed(2)} (includes $${Number(b.tax).toFixed(2)} lodging tax to remit)\n\nPhone: ${b.guest_phone}\nEmail: ${b.guest_email}\nNote: ${b.guest_note || 'none'}\n\nThese dates now show as booked on glashausresort.com and in the calendar feed Airbnb imports.`),
-    send(b.guest_email, 'Your Glashaus stay is booked',
+    guestOk && send(b.guest_email, 'Your Glashaus stay is booked',
       `Hi ${b.guest_name.split(' ')[0]},\n\nYou're all set for Glashaus, ${d(b.check_in)} to ${d(b.check_out)}.\n\nCheck-in is from 3 pm and check-out is by 11 am. We'll text you the address, gate details and your door code a few days before you arrive.\n\nIf you need anything before then, text us at (209) 559-4966.\n\nSee you on the ridge,\nSara and James`),
   ]);
 }
