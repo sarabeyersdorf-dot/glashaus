@@ -2,36 +2,35 @@
 <html lang="en">
 <meta charset="utf-8">
 <title>Glashaus House Rules</title>
-<!-- Printable house rules, one US Letter portrait page. Fonts are the site's (Instrument Serif,
-     Archivo); build-pdf.mjs embeds them and prints house-rules.pdf. Keep in step with house-manual.html. -->
+<!-- Printable house rules, one US Letter portrait page. Fonts match the printed front cover (Quicksand,
+     Montserrat); build-pdf.mjs embeds them and prints house-rules.pdf. Keep in step with house-manual.html. -->
 <style>
 @page{size:8.5in 11in;margin:0}
-:root{--grass:#E4C27A;--ink:#102A3A;--lake:#1D5C80;--paper:#FFFCF5;--line:rgba(16,42,58,.18)}
+/* Matches the printed front cover (Nov 18): sky blue, deep green bar, cream lettering outlined in brown. */
+:root{--sky:#00B1EB;--sky2:#5FD3F2;--green:#104F01;--cream:#FFF8EA;--brown:#3A2416;--ink:#1F2A1C;--pale:#EAF7FD}
 *{box-sizing:border-box}html,body{margin:0}
-body{background:#fff;color:var(--ink);font-family:"Archivo",Arial,sans-serif;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-.page{width:8.5in;height:11in;padding:.5in .5in .42in;display:flex;flex-direction:column;background:var(--paper)}
-header{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:2px solid var(--ink);padding-bottom:.12in}
-.wm{display:flex;align-items:baseline;font-family:"Instrument Serif",Georgia,serif;font-size:30pt;line-height:1;letter-spacing:.06em}
-.wm svg{height:.69em;width:.78em;margin:0 .05em 0 .01em;overflow:visible}
-header h1{font-family:"Instrument Serif",Georgia,serif;font-weight:400;font-size:30pt;line-height:1;margin:0}
-.intro{font-size:11.5pt;margin:.12in 0 .16in}
-.grid{flex:1;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(3,1fr);gap:.16in}
-.card{background:#fff;border:1px solid var(--line);border-top:.09in solid var(--grass);padding:.14in .18in .12in;display:flex;flex-direction:column}
-.card h2{font-family:"Instrument Serif",Georgia,serif;font-weight:400;font-size:23pt;line-height:1;margin:0 0 .1in;display:flex;align-items:center;gap:.1in}
-.card h2 svg{width:.24in;height:.24in;flex:none;stroke:var(--lake);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
-ul,ol{margin:0;padding-left:1.05em;font-size:11.25pt;line-height:1.38}
-li{margin:0 0 .05in}li::marker{color:var(--lake)}
-b{font-weight:600}
-.fine{font-size:8.2pt;line-height:1.4;color:#3c5260;margin:.14in 0 0}
-footer{display:flex;justify-content:space-between;align-items:center;background:var(--grass);padding:.11in .18in;margin-top:.12in;font-size:10.5pt}
-footer .sig{font-family:"Instrument Serif",Georgia,serif;font-size:15pt}
+body{color:var(--ink);font-family:"Montserrat",Arial,sans-serif;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.page{width:8.5in;height:11in;display:flex;flex-direction:column;background:var(--pale)}
+.out{color:var(--cream);-webkit-text-stroke:.045in var(--brown);paint-order:stroke fill}
+header{background:linear-gradient(180deg,var(--sky) 0%,var(--sky2) 100%);padding:.38in .5in .26in;text-align:center}
+header h1{font-family:"Quicksand",Arial,sans-serif;font-weight:600;font-size:40pt;line-height:1.02;margin:0;letter-spacing:.01em}
+header p{font-weight:800;font-size:12.5pt;letter-spacing:.02em;margin:.1in 0 0;text-transform:uppercase;-webkit-text-stroke-width:.03in}
+.grid{flex:1;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(3,1fr);gap:.17in;padding:.22in .45in 0}
+.card{background:#fff;border-radius:.12in;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 .02in .06in rgba(16,79,1,.12)}
+.card h2{background:var(--green);color:var(--cream);font-weight:800;font-size:13.5pt;letter-spacing:.06em;text-transform:uppercase;margin:0;padding:.09in .16in;display:flex;align-items:center;gap:.1in}
+.card h2 svg{width:.22in;height:.22in;flex:none;stroke:var(--cream);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+ul{margin:0;padding:.12in .18in .08in 1.25em;font-size:10.6pt;font-weight:500;line-height:1.38}
+li{margin:0 0 .05in}li::marker{color:var(--sky)}
+b{font-weight:800;color:var(--green)}
+.fine{font-size:7.8pt;line-height:1.4;color:#4b5a47;margin:.12in .45in .1in}
+footer{background:var(--green);color:var(--cream);display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:.2in;padding:.16in .5in;font-weight:800;text-transform:uppercase}
+footer .ph{font-size:12pt;line-height:1.25}footer .who{font-size:16pt;text-align:center}footer .em{font-size:10pt;text-align:right}
 </style>
 <div class="page">
   <header>
-    <div class="wm" aria-label="Glashaus"><span>GL</span><svg viewBox="0 0 100 90"><polygon points="50,3 98,88 2,88" fill="#1D5C80" fill-opacity=".22"/><path d="M50 3 L98 88 L2 88 Z M26 45.5 L74 45.5 L50 88 Z" fill="none" stroke="#102A3A" stroke-width="5" stroke-linejoin="round"/></svg><span>SHAUS</span></div>
-    <h1>House rules</h1>
+    <h1 class="out">House Rules &amp; Guidance</h1>
+    <p class="out">Questions or something not working? Text us any time</p>
   </header>
-  <p class="intro">Welcome! A few things to know so your stay goes smoothly. Questions or something not working? Text us any time at <b>(209) 559-4966</b>.</p>
 
   <div class="grid">
     <section class="card">
@@ -94,6 +93,6 @@ footer .sig{font-family:"Instrument Serif",Georgia,serif;font-size:15pt}
   </div>
 
   <p class="fine">Use of the property is at your own risk, and you agree to hold the owners harmless for any injury or damage. We may cancel a stay for rule violations, including complaints from neighbors.</p>
-  <footer><span>If we can make your stay better, please let us know. Have an amazing time!</span><span class="sig">Sara &amp; James</span></footer>
+  <footer><div class="ph">+1 209-559-4966<br>209-770-7523</div><div class="who">Sara &amp; James</div><div class="em">glashausresort@gmail.com</div></footer>
 </div>
 </html>
